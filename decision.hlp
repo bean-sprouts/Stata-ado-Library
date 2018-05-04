@@ -1,0 +1,51 @@
+{smcl}
+{* *! version 1.0  14feb2011}{...}
+{cmd:help decision}
+{hline}
+
+
+{title:Title}
+
+
+Decision analysis for Binary Outcomes
+
+{title:Syntax}
+
+         {cmd:decision <decision rule> [{it:{help decision##weight:weight}}], outcome(varname) [options]}
+
+
+{title:Description}
+
+{cmd:decision} calculates results based on decision making in medical research. 
+
+
+
+{title:Options}
+{opt outcome(varname)}       Outcome variable name.  Must be dichotomous, coded as 0 and 1.
+{opt order(string)}  	     List of results to display.  Must be N (number of observations), Nper, (Scaled N) 
+			tp (True Positive), tn (True Negative), fp (False Positive), fn (False Negative), 
+			testneg (Test Negative), testpos (Test Positive), neg (Negative), pos (Positive), 
+			sens (Sensitivity), spec (Specificity), ppv (Positive Predictive Value), 
+			or npv (Negative Predictive Value).  Default is to print all results.
+{opt label(string)}  	     Specify label to print next to results.
+{opt nper(#)}  	             This can be used to standardize results per N men.
+{opt format()}  	     Variable format for sensativity, specificity, PPV, and NPV. Default is %9.2f.
+
+{marker weight}{...}
+{p 4 6 2}
+{opt pweight}s are allowed; see {help weight}.
+
+
+{title:Examples}
+
+. {cmd:decision x<0.5, outcome(ycat)  order(testpos tp fn) header}
+Label&Test Positive&True Positive&False Negative
+x<0.5&336&164&86
+
+
+{title:Author}
+Daniel D. Sjoberg
+Memorial Sloan-Kettering Cancer Center
+sjobergd@mskcc.org
+
+

@@ -1,0 +1,51 @@
+{smcl}
+{* *! version 1.0  26mar2012}{...}
+{cmd:help printmodel}
+{hline}
+
+{title:Title}
+
+Prints formatted result from regression models
+
+{title:Syntax}
+
+        {cmd:printmodel <varlist> [, options]}
+
+{title:Description}
+
+{cmd:printmodel} outputs formatted results of regression models to be used 
+in tables and manuscript text. If no varlist is specified, printmodel 
+displays results for all covariates in the most recently fit regression model.
+
+{title:Options}
+
+{opt text}              By default printmodel results can be copied into a table for presentation.  
+			If you wish to copy the output into the text of a manuscript, 
+			use the text option.                       
+{opt dec:imal(integer)}	Specifies how many decimal places coefficients will be rounded to.
+                        Default is 2.
+{opt head:er}           Indicates whether the header row is printed in output. By default, 
+			it is not printed.
+{opt non}          	The {opt non} stands for "No N" and supresses the display of the model N.
+{opt _cons}          	Print the coefficent of the constant term for the model.  Note:  If the exp
+			has been envoked the exponential of the constant will be displayed, which 
+			does not have a direct interpretation.
+{opt saving}          	The {opt saving} option will save a table of formatted results into a Stata dataset.
+{opt outsheet}          If the {opt saving} option has been used, the outsheet will save the results 
+			as a text file, rather than a Stata data file.
+{opt rtf(handle)}	Specifies the handle of the RTF file where the formatted table will be exported.
+			Handle should be specified in "" quotes.
+
+{title:Examples}
+
+{cmd:logit cancer tpsa fpsa age, header saving("Logistic Regression Results.csv", replace comma) outsheet}
+N=1718
+Variable&Odds Ratio&95% Confidence Interval&p-value
+tpsa&1.21&1.15, 1.27&<0.0001
+fpsa&2.12&2.51, 2.72&<0.0001
+age&1.05&1.01, 1.12&<0.0001
+
+{title:Author}
+Daniel D. Sjoberg
+Memorial Sloan-Kettering Cancer Center
+sjobergd@mskcc.org

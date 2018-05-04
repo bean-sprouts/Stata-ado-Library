@@ -1,0 +1,81 @@
+{smcl}
+{* *! version 1.0.0 18apr2013}{...}
+{cmd:help stkmdiff} 
+{right:also see:  {help sts generate}}
+{hline}
+
+{title:Title}
+
+{p2colset 5 19 21 2}{...}
+{p2col :{hi:stkmdiff} {hline 2}}Difference between two Kaplan-Meier curves{p_end}
+{p2colreset}{...}
+
+
+{title:Syntax}
+
+{p 8 16 2}{cmd:stkmdiff} {ifin} [{cmd:,} time({it:{help numlist}}) by({varname}) {it:options}]
+
+
+{synoptset 29 tabbed}{...}
+{synopthdr}
+{synoptline}
+{synopt :{opt dec:imal(integer)}}Specifies how many decimal places survival 
+estimates will be rounded to. Default is 0.{p_end}
+{synopt :{opt diffdec:imal(integer)}}Specifies how many decimal places 
+differences and confidence intervals around differences of survival estimates 
+will be rounded to. Default is 1.{p_end}
+{synopt :{opt f:ailure}}Changes the survival estimates from survival probability
+to cumulative incidence of events (see {help sts graph}).{p_end}
+{synoptline}
+{p2colreset}{...}
+
+{p 4 6 2}
+You must {cmd:stset} your data before using {cmd:stkmdiff}; see
+{manhelp stset ST}.{p_end}
+
+
+{title:Description}
+
+{pstd}
+{cmd:stkmdiff} computes the difference in the Kaplan-Meier
+survival curves and a 95% confidence interval around each difference
+for the two levels of a binary numeric treatment variable, {it:varname},
+at the time points indicated by time({it:numlist}). 
+
+
+{title:Examples}
+
+To get the difference in cumulative incidence of death from disease at each year between 1 and 5:
+{cmd:. stset ttlastfollow, f(dod)}
+{cmd:. stkmdiff, time(1(1)5) by(txtype)}
+
+time   txtype_0   txtype_1   survivor_difference   survivor_difference~i  
+   1       100%       100%                  0.0%                  .%, .%  
+   2        86%        92%                 -6.1%           -30.4%, 18.2%  
+   3        86%        82%                  3.1%           -25.8%, 32.0%  
+   4        86%        82%                  3.1%           -25.8%, 32.0%  
+   5        75%        82%                 -7.6%           -41.4%, 26.1%
+
+To get the difference in cumulative incidence of metastasis at 1, 5 and 10 years:
+{cmd:. stset ttmets, f(mets)}
+{cmd:. stkmdiff, time(1,4,5) by(txtype) f table dec(1) diffdec(2)}
+
+time&txtype_0&txtype_1&failure_difference&failure_difference_ci
+1&5.6%&21.2%&-15.66%&-39.60%, 8.29%
+4&11.9%&21.2%&-9.36%&-35.84%, 17.12%
+5&33.9%&21.2%&12.68%&-23.32%, 48.67%
+
+
+{title:Author}
+
+Daniel Sjoberg
+Memorial Sloan-Kettering Cancer Center
+sjobergd@mskcc.org
+
+
+{title:Also see}
+
+"Survival Analysis: Techniques for Censored and Truncated Data" Second Edition By John P Klein and Melvin Moeschberger, Section 7.8.
+
+{psee}
+Manual:  {manlink R sts generate}

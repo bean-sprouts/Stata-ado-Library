@@ -1,0 +1,52 @@
+{smcl}
+{* *! version 1.0  03apr2012}{...}
+{cmd:help}  {cmdab:pdisp:lay}
+{hline}
+
+{title:Title}
+
+Outputs formatted p-values
+
+{title:Syntax}
+
+	{cmdab:pdisp:lay <exp> [, options]}
+
+{title:Description}
+
+{cmdab:pdisp:lay} takes a number or expression as an input and outputs a formatted p-value.
+
+{title:Options}
+
+{opt local(macname)}		Insert the formatted p-value in the local macro macname
+{opt min:imum(real)}		 Minimum p-value to display. Default is 0.0001
+{opt bon:ferroni(integer)}	 Adjust p-values for multiple testing using Bonferroni's method
+{opt p}				Output p-values like p=0.19 or p<0.001, rather than 0.19 or <0.001
+
+{title:Examples}
+{cmd: . pdisplay 0.0354861}
+0.035
+
+{cmd: . pdisplay 0.000023465, local(p)}
+<0.0001
+{cmd: . disp "`p'"}
+<0.0001
+
+{cmd: . pdisplay 0.000023465, min(0.001)}
+<0.001
+
+{cmd: . pdisplay 1-normal(1.96)}
+0.025
+
+{cmd: . pdisplay 0.005, p}
+p=0.005
+
+Corrected p-value 
+{cmd: . pdisplay 0.000023465, local(p) bonferroni(500)}
+0.012
+
+
+
+{title:Author}
+Daniel D. Sjoberg
+Memorial Sloan-Kettering Cancer Center
+sjobergd@mskcc.org

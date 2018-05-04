@@ -1,0 +1,128 @@
+{smcl}
+{* *! version 1.0  26mar2012}{...}
+{cmd:help widetab}
+{hline}
+
+{title:Title}
+
+Flat cross tablulation.  Shows all combinations of all variables in the varlist
+
+{title:Syntax}
+
+        {cmd:widetab varlist[, options]}
+
+{title:Description}
+
+{cmd:widetab} outputs a list of all observed combinations of the variables in the varlist, 
+along with frequencies and percentages.
+
+{title:Options}
+
+Same options as {cmd:list}
+
+{opt table}  Outputs the results seperated with an & to be put into a table.
+{opt nostat:istics}  Suppresses frequency and percent output.
+{opt group}  Only prints the first value for each variable within the variable list.  Do not use if variables have missing values.
+{opt by}  Calculates percentages for each level by indicated variable. 
+{opt avai:lable}  Suppresses values and only lists if values are available or missing. Convenient for continuous variables.
+
+{title:Examples}
+{cmd: . widetab male ischemia}
+
+  +------------------------------------+
+  | male   ischemia   _Freq   _Percent |
+  |------------------------------------|
+  |   No         No      11       10.7 |
+  |   No        Yes      18       17.5 |
+  |  Yes         No      21       20.4 |
+  |  Yes        Yes      53       51.5 |
+  +------------------------------------+
+
+
+{cmd: . widetab male ischemia, clean}
+
+    male   ischemia   _Freq   _Percent  
+      No         No      11       10.7  
+      No        Yes      18       17.5  
+     Yes         No      21       20.4  
+     Yes        Yes      53       51.5  
+
+{cmd: . widetab  race recur, table}
+race&recur&_Freq&_Percent
+Other&No&9&6.5
+Other&Yes&4&2.9
+White&No&67&48.2
+White&Yes&59&42.4
+
+{cmd: . widetab prob ipsa newprob, nostat group table}
+prob&ipsa&newprob
+0.05&0.00&0.050
+&0.05&0.055
+&0.10&0.061
+0.10&0.00&0.100
+&0.05&0.110
+&0.10&0.121
+0.15&0.00&0.150
+&0.05&0.164
+&0.10&0.180
+0.20&0.00&0.200
+&0.05&0.218
+&0.10&0.237
+0.25&0.00&0.250
+&0.05&0.271
+&0.10&0.293
+
+//After converting to a table in Word...
+prob	ipsa	newprob
+0.05	0.00	0.050
+	0.05	0.055
+	0.10	0.061
+0.10	0.00	0.100
+	0.05	0.110
+	0.10	0.121
+0.15	0.00	0.150
+	0.05	0.164
+	0.10	0.180
+0.20	0.00	0.200
+	0.05	0.218
+	0.10	0.237
+0.25	0.00	0.250
+	0.05	0.271
+	0.10	0.293
+
+{cmd: . widetab ebl, avai}
+  +------------------------------+
+  |       ebl   _Freq   _Percent |
+  |------------------------------|
+  |         .    2441        19% |
+  | available   10249        81% |
+  +------------------------------+
+
+
+{cmd: . widetab ebl, avai by(asa)}
+
+  +------------------------------------+
+  | asa         ebl   _Freq   _Percent |
+  |------------------------------------|
+  |   1           .      22       3.8% |
+  |   1   available     555        96% |
+  |------------------------------------|
+  |   2           .     225       3.5% |
+  |   2   available    6271        97% |
+  |------------------------------------|
+  |   3           .     132       4.2% |
+  |   3   available    3021        96% |
+  |------------------------------------|
+  |   4           .       2       5.3% |
+  |   4   available      36        95% |
+  |------------------------------------|
+  |   .           .    2060        85% |
+  |   .   available     366        15% |
+  +------------------------------------+
+
+
+
+{title:Author}
+Daniel D. Sjoberg
+Memorial Sloan-Kettering Cancer Center
+sjobergd@mskcc.org

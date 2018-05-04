@@ -1,0 +1,96 @@
+{smcl}
+{* version 12.0 7may2013}{...}
+{cmd:help stkmest}
+{right:also see: {help sts list}}
+{hline}
+
+{title:Generate Formatted Kaplan-Meier Estimates}
+
+
+{title:Syntax}
+
+{p 4 13 2}{cmd:stkmest} {ifin} [{cmd:,} {it:options}]
+
+{p 4 4 2}
+{cmd:stkmest} is for use with survival-time data; see help {help st}. You
+must have {cmd:stset} your data before using this command; see help 
+{help stset}.{p_end}
+
+{title:Description}
+
+{p 4 4 2}
+{cmd:stkmest} returns Kaplan-Meier estimates of survival probability
+ along with the corresponding 95% confidence intervals at the time points indicated by time({it:numlist}). 
+The variables returned include formatted and unformatted locals and output based on 
+a prespecified number of decimals dec:imal({it:numlist}).{p_end}
+
+
+{title:Options}
+
+
+{p 4 8 2}
+{cmd:by(}{it:varname}{cmd:)} produces separate functions by making
+separate calculations for each group identified by equal values of the
+{cmd:by()} variable taking on integer or string values.
+
+{p 4 8 2}
+{cmdab:dec:imal(}{it:numlist}{cmd:)} allows you to specify the number of decimals 
+included in the formatted output.
+
+{p 4 8 2}
+{cmdab:f:ailure} produces calculations corresponding to the Kaplan-Meier 
+probability of failure instead of the survival probability.
+
+{p 4 8 2}
+{cmd:table} produces a formatted table of the Kaplan-Meier estimates
+and 95% confidence intervals by groups and time points specified.
+
+{p 4 8 2}
+{cmd:saving(}{it:}{cmd:)} generates a stata dataset saving the Kaplan-Meier estimates.
+
+{title:Examples}
+
+{p 4 4 2}Generate Kaplan-Meier estimates and confidence bounds at 15 years of followup by group status, 
+probability rounded to 1 decimal place{p_end}
+
+{p 12 20 2}{cmd:. stset survtime, f(event==1)}{p_end}
+{p 12 20 2}{cmd:. stkmest, time(15) dec(1) by(group)}{p_end}
+
+{p 4 4 2}Generate Kaplan-Meier estimates and confidence bounds at 1 & 15 years of followup for a group 1,
+probability rounded to 1 decimal place{p_end}
+
+{p 12 20 2}{cmd:. stset survtime, f(event==1)}{p_end}
+{p 12 20 2}{cmd:. stkmest if group==1, time(1,15) dec(1)}{p_end}
+
+
+{p 4 4 2}Generate Kaplan-Meier estimates of failure 15 years of followup,
+probability rounded to the nearest integer{p_end}
+
+{p 12 20 2}{cmd:. stset survtime, f(event==1)}{p_end}
+{p 12 20 2}{cmd:. stkmest if group==1, time(15) failure}{p_end}
+
+{title:References}
+
+"Survival Analysis: Techniques for Censored and Truncated Data" Second Edition By John P Klein and Melvin Moeschberger, Section 7.8.
+
+
+{title:Author}
+
+Daniel Sjoberg
+Memorial Sloan-Kettering Cancer Center
+sjobergd@mskcc.org
+
+Melissa Assel
+Memorial Sloan-Kettering Cancer Center
+asselm@mskcc.org
+
+
+ 
+{title:Also see}
+
+{p 4 13}
+Online:  help for {help sts list}, {help sts}, {help stset}{p_end}
+
+{p 4 13}
+Manual:  {hi:{bind:[R] st sts}}, {hi:{bind:[R] st sts generate}},
+{hi:{bind:[R] st sts graph}}{p_end}

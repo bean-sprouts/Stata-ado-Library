@@ -1,0 +1,56 @@
+{smcl}
+{* *! version 1.0  25apr2013}{...}
+{cmd:help printlabel} {right: also see:  {help labelit}}
+{hline}
+
+{title:Title}
+
+Creates a Derived Variables excel in the working directory for use with the labelit program.
+
+{title:Syntax}
+
+{cmd:printlabel, {opt sav:ing}("{help filename}") {opt fordis:ease}({help string})} [{it:replace}]
+
+{title:Description}
+
+{cmd:printlabel} creates an excel in the current directory to be used with the labelit program. This program was made
+specifically for Dr. Vicker's Health Outcomes group at Memorial Sloan-Kettering Cancer Center. The program creates an excel
+of the standard variable names and labels associated with the disease of interest as well as the value formats. Disease 
+must be specified in running this program. Current options are prostate cancer, kidney cancer, bladder cancer and JRSC. 
+The full list of these variable names, labels and formats are available at: 
+O:\Outcomes\Andrew\_UROLOGY Biostatistics\SOPs, guidelines etc\Derived Variables - Template.xlsx
+
+{title:Options}
+
+{opt replace} specifies whether to replace any existing file in the working directory with the same name.
+Default does not replace.
+
+{title:Examples}
+
+If you don't specify the file extension, an XLS file is automatically created.
+{cmd: . printlabel, saving("Labels - lifetime PSA") fordisease(prostate)}
+file Labels - lifetime PSA.xls saved
+
+To create an XLSX file, the extension must be specified.
+{cmd: . printlabel, sav("Variable Labels - predictors of MIBC.xlsx") fordisease(bladder)}
+file Variable Labels - predictors of MIBC.xlsx saved
+
+If the file already exists, Stata will return an error.
+{cmd: . printlabel, sav("Variables List - nephrometry comparison.xlsx") fordis(kidney)}
+worksheet Derived Variables already exists, must specify sheetmodify or sheetreplace
+r(602);
+
+If you really do want to overwrite your existing file, specify replace.
+This overwrites any of the labels and formats you may have already written into the existing excel file.
+{cmd: . printlabel, sav("Variables List - nephrometry comparison.xlsx") fordis(kidney) replace} 
+file Variables List - nephrometry comparison.xlsx saved
+
+{title:Author}
+Jessica B. Poon
+Memorial Sloan-Kettering Cancer Center
+({browse "mailto:poonj@mskcc.org":poonj@mskcc.org})
+
+{opt Updated on 11/16/2017 to include JRSC variable options}
+Melissa Assel
+Memorial Sloan-Kettering Cancer Center
+({browse "mailto:asselm@mskcc.org":asselm@mskcc.org})

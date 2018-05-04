@@ -1,0 +1,99 @@
+{smcl}
+{* version 13.0 29jan2015}{...}
+{hline}
+{cmd:help optimism}
+{right:also see: {help bsample}}
+{hline}
+
+
+{title:Outputs optimism-corrected statistics using bootstrapped methods.}
+
+
+{title:Syntax}
+
+{p 4 13 2}{cmd:optimism} {it:statistic} {ifin}, train(string) apply(string) [{cmd:,} {it:options}]
+
+
+{title:Description}
+
+{p 4 4 2}
+{cmd:optimism} returns the apparent value, optimism, and optimism-corrected value of the specified model 
+performance statistics using the bootstrap technique. The bootstrapping for optimism correction involves fitting a
+regression model on a bootstrapped sample and subtracting the performance of the prediction model in the original 
+sample from the performance in the bootstrap sample, the average over all the calculated differences gives the 
+estimate of optimsim. In order to obtain the optimsim-corrected estimate we subtract the optismism from the 
+apparent value which is calculated by fitting and assessing the performance of the model in the original sample.{p_end}
+
+{p 4 8 2}
+{cmd:{it:statistic}} specifies the statistics of interest which will be estimated. It is possible to add a label
+to the statistic you are creating using the form label=statistic. Note that the statistic label is restricted to one word.
+
+{p 4 8 2}
+{cmd:train(}{it:string}{cmd:)} specifies the functions which will be performed on the training dataset.
+Modeling estimates based on the training dataset should then be stored.
+
+{p 4 8 2}
+{cmd:apply(}{it:string}{cmd:)} takes the stored estimates generated using the training data and calculates 
+the statistics of interest.
+
+
+{title:Options}
+
+{p 4 8 2}
+{cmdab:dec:imal(}{it:numlist}{cmd:)} allows you to specify the number of decimals 
+included in the formatted output.
+
+{p 4 8 2}
+{cmdab:seed(}{it:numlist}{cmd:)} allows you to set the seed.
+
+{p 4 8 2}
+{cmdab:reps(}{it:numlist}{cmd:)} allows you to specify the number of bootstrapped samples
+used to generate the optimism-corrected statistic.
+
+{p 4 8 2}
+{cmdab:strata(}{it:string}{cmd:)} allows you to generate bootstrapped samples stratified on 
+the specified variable.
+
+{p 4 8 2}
+{cmdab:saving(}{it:string}{cmd:)} allows you to save out the results output as a dataset.
+
+
+{title:Examples}
+
+
+{p 4 4 2}Generate optimism-corrected concordance estimates {p_end}
+
+{p 12 20 2}{cmd:. optimism r(C) r(D), train(stcox kattan ftpsanew spftpsanew1 spftpsanew2; estimates store m1)  apply(estimates restore m1; predict xb, xb; stcox xb; estat concord;)}{p_end}
+
+
+{p 4 4 2}Generate optimism-corrected concordance estimates with a label option {p_end}
+
+{p 12 20 2}{cmd:. optimism cindex=r(C) r(D), train(stcox kattan ftpsanew spftpsanew1 spftpsanew2; estimates store m1)  apply(estimates restore m1; predict xb, xb; stcox xb; estat concord;)}{p_end}
+
+
+{p 4 4 2}Generate optimism-corrected AUC estimates with bootstrapped samples stratified on the outcome at 2 years{p_end}
+
+{p 12 20 2}{cmd:. optimism r(area), train(logit bcr2yr kattan; estimates store m1)  apply(estimates restore m1; predict xb, xb; roctab bcr2yr xb;) strata(bcr2yr)}{p_end}
+
+
+{p 4 4 2}Save results output and format output rounded to 1 decimal place{p_end}
+
+{p 12 20 2}{cmd:. optimism r(C) r(D), train(stcox kattan ftpsanew spftpsanew1 spftpsanew2; estimates store m1)  apply(estimates restore m1; predict xb, xb; stcox xb; estat concord;) dec(1) saving("filename.dta")}{p_end}
+
+
+
+{title:References}
+
+Ewout W. Steyerberg, Frank E. Harrell Jr, Gerard J.J.M. Borsboom, M.J.C. Eijkemans, Yvonne Vergouwe, J. Dik F. Habbema. 
+"Internal validation of predictive models: Efficiency of some procedures for logistic regression analysis". 
+{it:Journal of Clinical Epidemiology}. PMID: 11470385
+
+{title:Authors}
+
+Melissa Assel
+Memorial Sloan-Kettering Cancer Center
+asselm@mskcc.org
+
+Daniel Sjoberg
+Memorial Sloan-Kettering Cancer Center
+sjobergd@mskcc.org

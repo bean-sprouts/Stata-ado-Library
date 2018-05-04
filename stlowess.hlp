@@ -1,0 +1,39 @@
+{smcl}
+{* *! version 1.0  26mar2012}{...}
+{cmd:help stlowess}
+{hline}
+
+{title:Title}
+
+Locally-weighted n-year Kaplan-Meier estimates by values of a continuous covariate
+
+{title:Syntax}
+
+        {cmd:stlowess <varname>, time(real) [options]}
+
+{title:Description}
+
+{cmd:stlowess} generates locally-weighted n-year Kaplan-Meier estimates by values of a continuous covariate.  
+The function uses tricubic weights (the default weight in the {cmd:lowess} command).
+
+{title:Options}
+
+{opt time(real)}         Specifies the analysis time that the survival or failure probabilites are calculated for.
+{opt bwidth(string)}     Specifies the percent of the datapoints that are utilized in the weighted Kaplan-Meier analysis.
+{opt gen:erate(name)}     Specifies the name of the variable to store locally-weighted Kaplan-Meier estimates in.  
+{opt f:ailure}            Specifying this option yields failure probabilites rather than survival probabilites (the default).
+{opt nobs(numlist)}	 The sample will be divided into n groups and estimates will be calculated and stored for only one observation per group.
+{opt nograph}            Suppresses risk curve.
+
+{opt plotoptions}        All options supported by the {cmd:line} command can be used to modify the resulting risk curve.
+
+
+{title:Examples}
+{cmd: . stlowess tpsa, time(5)}
+{cmd: . stlowess tpsa, time(5) gen(lws2yr) nograph}
+{cmd: . stlowess tpsa, time(5) gen(lws2yr) bwidth(0.5) scheme(s1mono) title("Locally-weighted KM", size(10)) ytitle(Survival Prob at 5 Years) note(" ") }
+
+{title:Author}
+Daniel D. Sjoberg
+Memorial Sloan-Kettering Cancer Center
+sjobergd@mskcc.org

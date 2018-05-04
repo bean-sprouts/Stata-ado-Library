@@ -1,0 +1,52 @@
+{smcl}
+{* *! version 1.0  04MAR2013}{...}
+{cmd:help auctab}
+{hline}
+
+{title:Title}
+
+Calculates and formats AUC for binary endpoints.
+
+{title:Syntax}
+
+{cmd:auctab outcome predictor [in] [if] [, options]}
+
+{title:Description}
+
+{cmd:auctab} calculates and formats AUC estimates along with confidnece intervals using {cmd:roctab}.
+
+{title:Options}
+
+Same options as {cmd:roctab}.  Note that not all options for roctab result in an AUC estimate.  Only options that result in AUCs are supported.
+
+{opt text}              Outputs the results that can be copied directly into manuscript text. e.g. "AUC 0.57 (95% CI 0.55, 0.59)"
+
+{opt dec:imal(integer)}  Specifies the number of decimal places to round the AUC and confidence limits to.  Default is 2.
+
+{title:Examples}
+{cmd: . auctab  cancer2yr age, text}
+AUC 0.57 (95% CI 0.55, 0.59)
+
+{cmd: . auctab  cancer2yr age, dec(4)}
+0.5703 (0.5502, 0.5903)
+
+{cmd: . auctab  cancer2yr age if age>60, decimal(3)}
+0.543 (0.518, 0.568)
+
+{cmd: . return list}
+macros:
+                 r(se) : ".0127160043995144"
+                  r(N) : "3844"
+                r(auc) : "0.543 (0.518, 0.568)"
+             r(ub_fmt) : "0.568"
+                 r(ub) : ".5679047147424208"
+             r(lb_fmt) : "0.518"
+                 r(lb) : ".5180588934418187"
+           r(area_fmt) : "0.543"
+               r(area) : ".5429818040921197"
+
+
+{title:Author}
+Daniel D. Sjoberg
+Memorial Sloan-Kettering Cancer Center
+sjobergd@mskcc.org

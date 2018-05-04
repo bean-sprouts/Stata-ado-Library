@@ -1,0 +1,78 @@
+{smcl}
+{* *! version 1.0  14feb2011}{...}
+{cmd:help calibratebinary}
+{hline}
+
+
+{title:Title}
+
+
+Calibration Plot for Prediction of Binary Outcome
+
+{title:Syntax}
+
+{cmd:calibratebinary {it:outcome} {it:prediction} {ifin} [{it:{help calibratebinary##weight:weight}}]  [, options]}
+
+
+{title:Description}
+
+{cmd:calibratebinary} plots a calibration plot for predictions of binary outcomes. 
+{it:outcome} is the name of the binary outcome variable. The outcome 
+variable must be coded as 0 and 1. {it:prediction} is the 
+name if the predicted probability variable. Values of the predicted probability 
+must lie between zero and one (inclusive). 
+
+
+
+{title:Options}
+
+{dlgtab:Main}
+
+{opt ker:nel(#)}  	     Specifies the number of kernels/groups the probabilities 
+			are spearated into.  The default is 10 kernels.
+{opt gen:erate(stub)}        Saves 6 new variables {it:stub}group, {it:stub}phatmean, {it:stub}observemean, 
+			{it:stub}observelb, {it:stub}observeub, {it:stub}lwsobserve.
+			The following code would replicate the calibration plot:
+ 
+			{cmd:calibratebinary} {it:outcome} {it:prediction}, gen(stub)
+
+        		twoway  (line {it:stub}lwsobserve {it:prediction}, sort clcolor(gs0) clpat(dash)) || ///
+                   		(rcap {it:stub}observelb {it:stub}observeub {it:stub}phatmean, lcolor(gs8)) || ///
+                   		(scatter {it:stub}observemean {it:stub}phatmean, mcolor(gs0) msize(1.5)) || ///
+                   		(function y=x, range(0 1) clcolor(gs0) clpat(solid)), ///     
+                        	title("Calibration Plot") ytitle("Actual", margin(medium)) xtitle("Predicted", margin(medium))  ///
+                        	legend(off) 
+
+{opt lineopts(string)}	     Specifies twoway line options for the LOWESS smoother.
+{opt rcapopts(string)}	     Specifies twoway rcap options for the confidence inervals about the mean observed outcome rate.
+{opt scatteropts(string)}    Specifies twoway scatter options for the mean predicted values against the mean observed rates by group.
+{opt functionopts(string)}   Specifies twoway function options for the y=x function line.
+{opt lowessopts(string)}     Specifies lowess options.  For example, the bwidth(#) can be changed.  
+				The LOWESS smoother is calculated on the logit scale, and this option cannot be modified.
+
+{dlgtab:Plot Options}
+	{p2col:{it:{help axis_options}}}
+		labels, ticks, grids, log scales.{p_end}
+			       Default is {cmd:ytitle("Actual", margin(medium)) xtitle("Predicted", margin(medium))}
+			       {cmd:ylabel(0(0.2)1, format(%9.1f)) xlabel(0(0.2)1, format(%9.1f))}.
+	{p2col:{it:{help title_options}}}
+        	titles, subtitles, notes, captions.{p_end}
+	{p2col:{it:{help legend_option}}}
+        	legend explaining what means what.{p_end}
+			       Default is {cmd:lengend(off)}.
+
+
+{marker weight}{...}
+{p 4 6 2}
+{opt pweight}s are allowed; see {help weight}.
+
+{title:Examples}
+
+ADD EXAMPLES AFTER I FIGURE OUT HOW TO TRUNCATE THE DISPLAYED AREA ON THE PLOT!
+
+{title:Author}
+Daniel D. Sjoberg
+Memorial Sloan-Kettering Cancer Center
+sjobergd@mskcc.org
+
+

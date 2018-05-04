@@ -1,0 +1,59 @@
+{smcl}
+{* *! version 1.0  15feb2013}{...}
+{cmd:help widecount}
+{hline}
+
+{title:Title}
+
+Flat cross tablulation of missing and available values.  Shows all combinations of all variables in the varlist.
+
+{title:Syntax}
+
+        {cmd:widecount varlist[, options]}
+
+{title:Description}
+
+{cmd:widecount} outputs a list of all observed combinations of missing and available variables in the varlist, along with frequencies and percentages.
+
+{title:Options}
+
+Same options as {cmd:list}
+
+{opt table}  Outputs the results seperated with an & to be put into a table.
+
+{title:Examples}
+
+{cmd: . widecount birthdate birth_new}
+
+  +------------------------------------------+
+  | birthdate   birth_new   _Freq   _Percent |
+  |------------------------------------------|
+  |         .           .      92       21.4 |
+  |         .   available     319       74.4 |
+  | available           .       1        0.2 |
+  | available   available      17        4.0 |
+  +------------------------------------------+
+
+
+{cmd: . widecount birthdate birth_new, clean}
+
+birthdate   birth_new   _Freq   _Percent  
+        .           .      92       21.4  
+        .   available     319       74.4  
+available           .       1        0.2  
+available   available      17        4.0
+  
+
+{cmd: . widecount birthdate birth_new, table}
+
+birthdate&birth_new_Freq&_Percent
+.&.&92&21.4
+.&available&319&74.4
+available&.&1&0.2
+available&available&17&4.0
+
+
+{title:Author}
+Jessica B. Poon
+Memorial Sloan-Kettering Cancer Center
+poonj@mskcc.org

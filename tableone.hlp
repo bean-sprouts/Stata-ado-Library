@@ -1,0 +1,125 @@
+{smcl}
+{* *! version 1.0  26mar2012}{...}
+{cmd:help tableone}
+{hline}
+
+{title:Title}
+
+Outputs Table 1 statistics by group
+
+{title:Syntax}
+
+	{cmd:tableone <varlist> [, options]}
+
+{title:Description}
+
+{cmd:tableone} outputs descriptive statistics and p-values for tests of differences between groups.  
+Statistics are seperated by an & so results can easily be pasted into a Word table.
+
+{title:Options}
+
+{opt by(varname)}		Specifies the the groups the descriptive statistics are caclulated within.
+{opt type(string)}		Specifies whether the input variable is 
+				{opt con:tinuous}, {opt cat:egorical}, or {opt dic:hotomous}.
+{opt label(string)}		Specifies the label to be displayed with descriptive statistics.  
+				Default is the variable label.  If no variable label is specified, 
+				then variable name is displayed.
+{opt stattype(integer)}		Default value is 1.  For continuous variables stattype 1 prints "Median (IQR)", 
+				stattype 2 prints "Mean (SD)", and stattype 3 prints "Median (IQR) Min:Max".
+				For categorical varaibles, stattype 1 prints "n (%)", stattype 2 prints "n", 
+				stattype 3 prints "%", stattype 4 prints "n %", and stattype 5 prints n/N (%).
+{opt statlabel}			Prints a column indicating which statistics are being presented.
+{opt dec:imal(integer)}		 Specifies how many decimal places descriptive statistics will be rounded to.  
+				Default is 0 for percent, and 1 for continous variables.
+{opt header}			Indicates whether the header row is printed in output.
+{opt m:issing}			 Indicates whether missing values are inlcuded in output. Note: Categorical variables only.
+{opt freq:uency}		 Sorts output by frequency of events.  Default is to sort alphanumerically. Note: Categorical variables only.
+{opt varvalue(string)}		Reports frequecies on one line for the value specified, similar to dichotomous outcomes for a varvalue=1.  
+				For example, if a the variable ASA took on 4 values (1, 2, 3, and 4), and we wanted to print the proportion 
+				of patients who have ASAs of 4, we would specifiy varvalue(4)
+{opt test(string)}		Indicates which test of independence to perform: ranksum, ttest, chi2, exact, regress, or kwallis.
+{opt rtf(handle)}		Specifies the handle of the RTF file where the formatted table will be exported.
+				Handle should be specified in "" quotes.
+
+{title:NOTE}: While the tableone program does accept a list of variables and will summarize each of them seperately, the options will apply to 
+every variable in the list.  For example, if one specifies the {opt type(continuous)} option, the program will assume each variable in the list
+is continuous.
+
+
+{title:Return List}
+Sometimes, one may need to display the formatted statistics that are output from the tableone program is various forms.
+To this end, each formatted statistic is returned as a local variable.  The returned local variables are named
+according to which row and column they appear in the output: r(<varname>_<row number>_<column number>).  For example, 
+if the results from the tableone command looked like this
+{cmd: . tableone asa, by(antype) missing type(cat)}
+ASA Score
+    1&119 (17%)&29 (10%)
+    2&386 (55%)&168 (60%)
+    3&59 (8%)&17 (6%)
+    Unknown&135 (19%)&68 (24%)
+
+The following locals would be returned.
+r(asa_row1)="1"
+r(asa_1_1)="119 (17%)"
+r(asa_1_2)="29 (10%)"
+r(asa_row2)="2"
+r(asa_2_1)="386 (55%)"
+r(asa_2_2)="168 (60%)"
+r(asa_row3)="3"
+r(asa_3_1)="59 (8%)"
+r(asa_3_2)="17 (6%)"
+r(asa_row4)="."
+r(asa_4_1)="135 (19%)"
+r(asa_4_2)="68 (24%)"
+
+"119 (17%)" is in row one column one, so it is called r(asa_1_1).
+
+{title:Examples}
+Calculate frequency and percent of each ASA score by Anesthesia Type (antype), 
+the {opt missing} option includes missing values in the counts, "chi2" {opt test} option
+outputs the p-value from a chi-square test of independence.
+{cmd: . tableone asa, by(antype) test(chi2) missing type(cat)}
+ASA Score
+    1&119 (17%)&29 (10%)&0.020
+    2&386 (55%)&168 (60%)&
+    3&59 (8%)&17 (6%)&
+    Unknown&135 (19%)&68 (24%)&
+
+Adding the "header" option prints a row above the frequencies with the number of observations
+in each group.
+{cmd: . tableone asa, by(antype)  test(chi2) missing type(cat) header}
+&antype=0 (N=699)&antype=1 (N=282)
+ASA Score
+    1&119 (17%)&29 (10%)&0.020
+    2&386 (55%)&168 (60%)&
+    3&59 (8%)&17 (6%)&
+    Unknown&135 (19%)&68 (24%)&
+
+One can also specify the number of decimal places a statistic is calculated to using the {opt dec:imal} option.
+{cmd: . tableone psapreop, by(antype) dec(1) type(con)}
+Preoperative PSA&5.4 (4.1, 7.2)&5.5 (4.1, 8.6)
+
+The default label is the variable label.  Using the {opt label} option, the label can easily be changed.
+{cmd: . tableone psapreop, by(antype) dec(1) label(PSA) type(con)}
+PSA&5.4 (4.1, 7.2)&5.5 (4.1, 8.6)
+
+Dichotomous variable that are coded as zeros and ones, can be summarized on one line.
+{cmd: . tableone ece, by(antype) type(dic)}
+ECE&160 (23%)&89 (32%)
+
+If no {opt by} is specified, then statistics are calculated for the entire cohort.
+{cmd: . tableone ece, type(dic) header}
+&N=981
+ECE&249 (25%)
+
+{title:Notes}
+The {opt type(string)} option is not required.  If it is not specified, {cmd:tableone} will guess the type based on the data.  
+If a variable is coded as zeros and ones, then it assumes {opt type(dichotomous)}.  If the variable has less than 10 levels,
+it is assumed to be {opt type(categorical)}.  Otherwise, it is assumed to be {opt type(continuous)}.
+
+{title:Author}
+Daniel D. Sjoberg
+Memorial Sloan-Kettering Cancer Center
+sjobergd@mskcc.org
+			
+

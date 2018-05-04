@@ -1,0 +1,98 @@
+{smcl}
+{* version 12.0 7may2013}{...}
+{cmd:help anovadiff}
+{right:also see: {help regress}}
+{hline}
+
+{title:HELP FILE INCOMPLETE: Outputs difference in means along with 95% confidence intervals and p-value for ANOVA models.}
+
+
+{title:Syntax}
+
+{p 4 13 2}{cmd:anovadiff} {it:varname} {ifin}{cmd:, by(}{it:varname}{cmd:)} [{it:options}]
+
+{title:Description}
+
+{p 4 4 2}
+{cmd:anovadiff} returns ANOVA estimates of the specified outcome and the difference in the specificed outcome 
+according to the {cmd:by} group specified along with the corresponding 95% confidence intervals and p-value for that difference. 
+The variables returned include formatted and unformatted locals and output based on 
+a prespecified number of decimals using {cmdab:dec:imal(}{it:numlist}).{p_end}
+
+{p 4 8 2}
+{cmd:outcome(}{it:varname}{cmd:)} specifies the outcome of interest which will be estimated for each by group and compared
+between the two by groups.
+
+{p 4 8 2}
+{cmd:by(}{it:varname}{cmd:)} specifies the groups for which outcomes will be estimated and by which the outcomes
+will be compared to produce a difference between groups. By groups must have 2 and only 2 levels.
+
+
+{title:Options}
+
+{p 4 8 2}
+{cmdab:dec:imal(}{it:numlist}{cmd:)} allows you to specify the number of decimals 
+included in the formatted output.
+
+{p 4 8 2}
+{cmdab:sddec:imal(}{it:numlist}{cmd:)} allows you to specify the number of decimals 
+included in the formatted output.
+
+{p 4 8 2}
+{cmdab:label(}{it:string}{cmd:)} allows you to specify a label for {it:varname} in the formatted output.
+
+{p 4 8 2}
+{cmd:header} produces a formatted table of the risk estimates in each group, 
+the risk differences between groups, 95% confidence intervals for the risk differences, and p-values
+for the anova test for a difference.
+
+{p 4 8 2}
+{cmd:covariates(}{it:varlist}{cmd:)} calculates an adjusted difference in means adjusting for variables specified in {it:varlist}.
+
+{p 4 8 2}
+{cmdab:rev:erse} allows you to switch the order of the two groups specified by the {cmd:by()} variable for the calculation of the mean difference and in the formatted output.
+
+{p 4 8 2}
+{cmd:rtf(}{it:handle}{cmd:)} specifies the handle of the RTF file where the formatted table will be exported. Handle should be specified in "" quotes.
+
+
+{title:Examples}
+
+
+{p 4 4 2}Generate means and differences formatted for inserting into a table {p_end}
+
+{p 12 20 2}{cmd:. anovadiff tpsa, by(cancer) header}{p_end}
+
+
+{p 4 4 2}Generate means and differences rounded to 2 decimal places{p_end}
+
+{p 12 20 2}{cmd:. anovadiff tpsa, by(cancer) dec(2)}{p_end}
+
+
+{p 4 4 2}Generate output with standard deviations rounded to 1 decimal place{p_end}
+
+{p 12 20 2}{cmd:. anovadiff tpsa, by(cancer) sddec(1)}{p_end}
+
+
+{title:References}
+
+"Survival Analysis: Techniques for Censored and Truncated Data" Second Edition By John P Klein and Melvin Moeschberger, Section 7.8"
+
+
+{title:Author}
+
+Daniel Sjoberg
+Memorial Sloan-Kettering Cancer Center
+sjobergd@mskcc.org
+
+Melissa Assel
+Memorial Sloan-Kettering Cancer Center
+asselm@mskcc.org
+
+
+ 
+{title:Also see}
+
+{p 4 13}
+binarydiff program {help binarydiff}{p_end}
+
